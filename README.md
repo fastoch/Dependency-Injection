@@ -16,10 +16,9 @@ We pass the computer's components as constructor arguments, which allows us to g
 Besides constructor injection, there are more complex dependency injection **libraries** that inject the dependencies behind the scenes.  
 With these libraries, we can usually also decide about the lifetime of our dependencies.  
 
-In our Computer class example, there is no reason for the GPU to be active when we just want to do some office work.  
+In our Computer class example, there is no reason for the GPU to be active when we want to do some office work.  
 But for playing video games, we need the GPU.  
 So, we could say that the GPU lives as long as the game is open, and not during the whole lifetime of our application.  
-
 
 ## Dependency injection is a design pattern
 
