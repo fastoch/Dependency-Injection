@@ -62,6 +62,8 @@ The attachment, on the other hand, gets uploaded to our attachment service.
 
 The default storage location is an S3, a part of Amazon's Web Services.  
 It's a simple storage service that lets you put up files and pull them down.  
-While S3 is 
+While S3 is nice and straightforward and most of our clients are okay with it, some companies might not want us to permanently store their data.  
+
+
 
 
