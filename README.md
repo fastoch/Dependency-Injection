@@ -53,17 +53,40 @@ In a microservices architecture, each service communicates via APIs, so changes 
 We have a business app where users can chat with their coworkers. They can also send pictures and files to each other.  
 
 When a user sends something, the file gets uploaded to our attachment service.  
-The attachement service is responsible for storing, retrievin, and processing all attachments.  
+The attachement service is responsible for storing, retrieving, and processing all attachments.  
 We're going to build up this whole service using dependency injection, and we'll see what it enables us to do.  
 
 When a user sends a message with an attachment, the message text gets sent to our standard chat service.  
 We want people to receive their messages almost real-time, so this service is all about speed.  
 The attachment, on the other hand, gets uploaded to our attachment service.  
 
-The default storage location is an S3, a part of Amazon's Web Services.  
+The default storage location for the attachments is an S3, a part of Amazon's Web Services.  
 It's a simple storage service that lets you put up files and pull them down.  
-While S3 is nice and straightforward and most of our clients are okay with it, some companies might not want us to permanently store their data.  
+
+While S3 is nice and most of our clients are okay with it, some companies might not want us to permanently store their data.  
+This means we actually need our service to handle multiple storage locations.  
+Then, depending on which compay a user is from, we need to put their attachments in the right place.  
+
+Most picky clients will give us an SFTP server to connect to, but some might want us to use a specific protocol such as WebDAV.  
+In this example, our attachment service needs to handle 3 different storage locations: 
+- AWS S3,
+- SFTP server,
+- WebDAV server.
+
+## Without dependency injection
+
+Our first thought might be to simply extend our existing **upload** method with some if statements, and then  
+have the caller of our upload method pass in where to upload the file. But this is not a good idea...  
+
+First, it gives our **Storage** class too many responsibilities, which breaks the first SOLID principle and makes the code hard to read.  
+The code for SFTP is intermingled with the code for AWS and WebDAV, and it's not ideal for every dev to understand what it does.  
+
+Second, using the class is not very simple.   
+We have one upload function which needs a bunch of info to determine where it's going to upload the attachment.  
+But what info it needs is very different depending on where the attachment is going.
 
 
+## With dependency injection
 
 
+@3/13 CodeAesthetic
