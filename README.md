@@ -50,8 +50,18 @@ In a microservices architecture, each service communicates via APIs, so changes 
 
 # Example 
 
-We have a business app where users can chat with their coworkers.  
+We have a business app where users can chat with their coworkers. They can also send pictures and files to each other.  
 
+When a user sends something, the file gets uploaded to our attachment service.  
+The attachement service is responsible for storing, retrievin, and processing all attachments.  
+We're going to build up this whole service using dependency injection, and we'll see what it enables us to do.  
 
+When a user sends a message with an attachment, the message text gets sent to our standard chat service.  
+We want people to receive their messages almost real-time, so this service is all about speed.  
+The attachment, on the other hand, gets uploaded to our attachment service.  
+
+The default storage location is an S3, a part of Amazon's Web Services.  
+It's a simple storage service that lets you put up files and pull them down.  
+While S3 is 
 
 
