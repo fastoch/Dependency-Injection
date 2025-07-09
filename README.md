@@ -78,15 +78,29 @@ In this example, our attachment service needs to handle 3 different storage loca
 Our first thought might be to simply extend our existing **upload** method with some if statements, and then  
 have the caller of our upload method pass in where to upload the file. But this is not a good idea...  
 
-First, it gives our **Storage** class too many responsibilities, which breaks the first SOLID principle and makes the code hard to read.  
+**First**, it gives our **Storage** class too many responsibilities, which breaks the first SOLID principle and makes the code hard to read.  
 The code for SFTP is intermingled with the code for AWS and WebDAV, and it's not ideal for every dev to understand what it does.  
 
-Second, using the class is not very simple.   
+**Second**, using the class is not very simple.   
 We have one upload function which needs a bunch of info to determine where it's going to upload the attachment.  
-But what info it needs is very different depending on where the attachment is going.
+But what info it needs is very different depending on where the attachment is going:
+- if it's AWS, we need the access key ID and the secret access key
+- if it's SFTP, we need the host, port, username, and private key
+- if it's WebDAV, we need a URL and the Auth key
+This forces us to have a bunch of optional variables that need to be filled out in certain cases, and we also need comments
+to clarify our code:
+![image](https://github.com/user-attachments/assets/d9885e5c-b8e3-4756-90bd-407be254e32a)
 
+And **finally**, the part of the code that actually calls the upload method needs to have all of this destination-specific context
+to perform the upload, which is not good for clarity and does not apply the DRY principle (Don't Repeat Yourself).
 
 ## With dependency injection
 
+Let's create an interface that represents our attachment storage:
+```ts
+export interface Storage {
+  upload(attachment: Attachment) 
+}
+``` 
 
 @3/13 CodeAesthetic
