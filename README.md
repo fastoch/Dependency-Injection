@@ -1,15 +1,21 @@
-src = https://www.youtube.com/watch?v=f270BoTicMA
+sources: 
+- https://www.youtube.com/watch?v=f270BoTicMA
+- https://www.youtube.com/watch?v=J1f5b4vcxCQ
 
 # What is dependency injection? 
 
-Dependency injection is a design pattern where a class or function receives its dependencies from external sources, rather than creating them itself.  
+First of all, it sounds more fancy than it is.  
+
+Dependency injection is simply when you have a piece of code which uses another piece of code,  
+and instead of using that code directly, it's passed in as a parameter.  
+
+When you pass something in to be used, we call it "**injection**".  
+We inject the dependent code into the code that uses it.  
 
 If a function needs a database connection which comes from a database service, we don't need to create that service inside the function.
 We want the service to already be created so we can just focus on the business logic inside that function and do whatever needs to be done with the database.  
 
 In that case, the database service is the dependency, and we're injecting it into the function that needs it.  
-
-Usually, when we say "**injecting**", what that really means is "**passing it as a parameter**".
 
 # Why does it even exist?
 
@@ -44,5 +50,8 @@ In a microservices architecture, each service communicates via APIs, so changes 
 
 # Example 
 
+We have a business app where users can chat with their coworkers.  
 
-@5/13
+
+
+
