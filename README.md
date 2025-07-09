@@ -99,8 +99,18 @@ to perform the upload, which is not good for clarity and does not apply the DRY 
 Let's create an interface that represents our attachment storage:
 ```ts
 export interface Storage {
-  upload(attachment: Attachment) 
+  /**
+   * Store an attachment
+   * @param attachment The attachment to store
+   * @return The attachment id
+   */
+  upload(attachment: Attachment): Promise<string>;
+
+  /**
+   * Retrieve the attachment from the storage server
+   */
+  download(attachment_id: string): Promise<Attachment>: 
 }
 ``` 
 
-@3/13 CodeAesthetic
+@4/13 CodeAesthetic
