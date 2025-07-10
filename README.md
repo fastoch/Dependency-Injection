@@ -92,11 +92,11 @@ to clarify our code:
 ![image](https://github.com/user-attachments/assets/d9885e5c-b8e3-4756-90bd-407be254e32a)
 
 And **finally**, the part of the code that actually calls the upload method needs to have all of this destination-specific context
-to perform the upload, which is not good for clarity and does not apply the DRY principle (Don't Repeat Yourself).
+to perform the upload.
 
 ## With dependency injection
 
-Let's create an interface that represents our attachment storage:
+Let's create an interface that represents our attachment storage and contains 2 key methods:
 ```ts
 export interface Storage {
   /**
@@ -111,6 +111,30 @@ export interface Storage {
    */
   download(attachment_id: string): Promise<Attachment>: 
 }
-``` 
+```
+
+Then, we create 3 different implementations of this storage interface:
+```ts
+export class AwsStorage impements Storage {
+  public constructor(aws_access_key_id: string, aws_secret_access_key: string) {
+    ...
+  }
+}
+
+export class SftpStorage impements Storage {
+  public constructor(host: string, port: number, username: string, private_key: Buffer) {
+    ...
+  }
+}
+
+export class WebDavStorage impements Storage {
+  public constructor(uri: string, authorization_key: string) {
+    ...
+  }
+}
+```
+- The configuration for each of these implementations is passed into their constructor.
+- There's no more optional variables that sometimes need to be set.
+  
 
 @4/13 CodeAesthetic
