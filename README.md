@@ -116,18 +116,26 @@ export interface Storage {
 Then, we create 3 different implementations of this storage interface:
 ```ts
 export class AwsStorage impements Storage {
+  private readonly s3: AWS.S3;
+
   public constructor(aws_access_key_id: string, aws_secret_access_key: string) {
     ...
   }
 }
 
 export class SftpStorage impements Storage {
+  private readonly host: string;
+  private readonly port: number;
+  ...
+
   public constructor(host: string, port: number, username: string, private_key: Buffer) {
     ...
   }
 }
 
 export class WebDavStorage impements Storage {
+  private webdav_client: WebDAVClient;
+
   public constructor(uri: string, authorization_key: string) {
     ...
   }
@@ -135,6 +143,16 @@ export class WebDavStorage impements Storage {
 ```
 - The configuration for each of these implementations is passed into their constructor.
 - There's no more optional variables that sometimes need to be set.
-  
+
+So now, once the user is authenticated and we know which company they're from, we create the request that 
+the request handler should use.  
+
+Instead of the configuration needing to be be passed all the way to the request handler, only the storage is passed to, 
+or injected into, the request handler.  
+
+The request handler is not aware of which storage is passed in, or where the file is going, it just knows that it can call the upload method.  
+
+
+
 
 @4/13 CodeAesthetic
